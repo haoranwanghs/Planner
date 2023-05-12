@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  mysqldb:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=planner
+    ports:
+      - "3306:3306"
+    networks:
+      - springapimysql-net
+  app:
+    depends_on:
+      - mysqldb
+    build: .
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    stdin_open: true
+    tty: true
+    networks:
+      - springapimysql-net
+    environment:
+      - spring.datasource.url=jdbc:mysql://mysqldb:3306/planner?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+networks:
+  springapimysql-net:

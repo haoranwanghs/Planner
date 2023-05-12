@@ -1,6 +1,8 @@
 package com.hotstar.planner.dto;
 
+import com.hotstar.planner.entities.Member;
 import java.util.List;
+import java.util.Map;
 import lombok.Data;
 
 @Data
@@ -13,5 +15,5 @@ public class PlannedProject {
     Integer latestCompleteWeekId;
     Integer actualStartWeekId;
     Integer actualEndWeekId;
-    List<PlannedSubProject> plannedSubProjects;
+    Map<Member, List<PlannedSubProject>> memberPlannedSubProjectsMap;
 }

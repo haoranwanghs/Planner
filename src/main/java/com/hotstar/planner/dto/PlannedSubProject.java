@@ -8,7 +8,6 @@ import lombok.Data;
 public class PlannedSubProject extends SubProject {
     Integer actualStartWeekId;
     Integer actualEndWeekId;
-
     Map<String, List<Integer>> memberWeekAllocation;
     List<String> dependeeSubprojectIds;
 
