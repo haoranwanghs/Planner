@@ -10,87 +10,38 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { BasicAddModal, useEditModal } from './Modal';
-import { FormContainer, TextFieldElement } from 'react-hook-form-mui';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { FormContainer, TextFieldElement, MultiSelectElement } from 'react-hook-form-mui';
 import EditIcon from '@mui/icons-material/Edit';
-import { SubProjects } from './SubProject';
+import { useNow } from '@mui/x-date-pickers/internals';
+
 let localData = [
   {
-    id: 'uuid1',
-    name: 'A',
+    id: 'uuid2',
+    name: 'A-dev',
+    projectId: 'uuid1',
     priority: 0,
-    subProjects: [
-      {
-        id: 'uuid2',
-        name: 'A-dev',
-        priority: 0,
-        manWeekEstimation: 2,
-        maxParallelDegree: 1,
-        earliestStartWeekId: 1,
-        latestCompleteWeekId: 4,
-        dependsOnSubProjectIds: ['uuid1'],
-        requiredMemberTag: 'backend'
-      },
-      {
-        id: 'uuid1',
-        name: 'A-prd',
-        priority: 0,
-        manWeekEstimation: 1,
-        maxParallelDegree: 1,
-        earliestStartWeekId: 1,
-        latestCompleteWeekId: 4,
-        dependsOnSubProjectIds: [],
-        requiredMemberTag: 'pm'
-      }
-    ],
+    manWeekEstimation: 2,
+    maxParallelDegree: 1,
     earliestStartWeekId: 1,
-    latestCompleteWeekId: 4
+    latestCompleteWeekId: 4,
+    dependsOnSubProjectIds: ['uuid1'],
+    requiredMemberTag: 'backend'
   },
   {
-    id: 'uuid2',
-    name: 'B',
+    id: 'uuid1',
+    projectId: 'uuid1',
+    name: 'A-prd',
     priority: 0,
-    subProjects: [
-      {
-        id: 'uuid4',
-        name: 'B-dev',
-        priority: 0,
-        manWeekEstimation: 2,
-        maxParallelDegree: 1,
-        earliestStartWeekId: 1,
-        latestCompleteWeekId: 8,
-        dependsOnSubProjectIds: ['uuid3'],
-        requiredMemberTag: 'backend'
-      },
-      {
-        id: 'uuid3',
-        name: 'B-prd',
-        priority: 0,
-        manWeekEstimation: 1,
-        maxParallelDegree: 1,
-        earliestStartWeekId: 1,
-        latestCompleteWeekId: 8,
-        dependsOnSubProjectIds: [],
-        requiredMemberTag: 'pm'
-      },
-      {
-        id: 'uuid5',
-        name: 'B-test',
-        priority: 0,
-        manWeekEstimation: 2,
-        maxParallelDegree: 1,
-        earliestStartWeekId: 1,
-        latestCompleteWeekId: 8,
-        dependsOnSubProjectIds: ['uuid3'],
-        requiredMemberTag: 'test'
-      }
-    ],
+    manWeekEstimation: 1,
+    maxParallelDegree: 1,
     earliestStartWeekId: 1,
-    latestCompleteWeekId: 8
+    latestCompleteWeekId: 4,
+    dependsOnSubProjectIds: [],
+    requiredMemberTag: 'pm'
   }
 ];
 
-function UserAvatar({ user, onDelete, onEdit, onExpand }) {
+function UserAvatar({ user, onDelete, onEdit }) {
   return (
     <ListItem
       alignItems="flex-start"
@@ -99,11 +50,6 @@ function UserAvatar({ user, onDelete, onEdit, onExpand }) {
           {onEdit && (
             <IconButton edge="end" aria-label="delete" onClick={() => onEdit(user)}>
               <EditIcon />
-            </IconButton>
-          )}
-          {onExpand && (
-            <IconButton edge="end" aria-label="delete" onClick={() => onExpand(user)}>
-              <AddCircleIcon />
             </IconButton>
           )}
           {onDelete && (
@@ -118,12 +64,12 @@ function UserAvatar({ user, onDelete, onEdit, onExpand }) {
         <Avatar src="/static/images/avatar/1.jpg" />
       </ListItemAvatar> */}
 
-      <ListItemText primary={user.name} />
+      <ListItemText primary={user.name} secondary={``} />
     </ListItem>
   );
 }
 const addAPI = (data) => {
-  localData.push(data);
+  localData.push({ id: `${Date.now()}`, ...data });
   console.log(localData);
   return Promise.resolve();
 };
@@ -153,7 +99,7 @@ function UsersList({ users, onDelete, onEdit, onExpand }) {
 const fetcher = (...args) => Promise.resolve(localData);
 
 function useUser(id) {
-  const { data, error, isLoading } = useSWR(`/api/projects/${id}`, fetcher);
+  const { data, error, isLoading } = useSWR(`/api/subprojects/${id}`, fetcher);
 
   return {
     users: data,
@@ -172,11 +118,33 @@ export default function IconLabelButtons({ onDelete, formElement }) {
     </Stack>
   );
 }
+// id: 'uuid2',
+// name: 'A-dev',
+// priority: 0,
+// manWeekEstimation: 2,
+// maxParallelDegree: 1,
+// earliestStartWeekId: 1,
+// latestCompleteWeekId: 4,
+// dependsOnSubProjectIds: ['uuid1'],
+// requiredMemberTag: 'backend'
 
-const Form = ({ onSubmit, data }) => {
+function useSubProjects(id) {
+  const { data, error, isLoading } = useSWR(`/api/subprojects${id}`, fetcher);
+
+  return {
+    subprojects: data,
+    isLoading,
+    isError: error
+  };
+}
+const Form = ({ onSubmit, data, id }) => {
+  const { subprojects, isLoading } = useSubProjects();
+
+  const options = (subprojects ?? []).filter((pj) => pj.id !== data?.id);
+  console.log(data, 'id', id, subprojects, options, isLoading);
   return (
     <FormContainer
-      defaultValues={data}
+      defaultValues={data ?? { projectId: id }}
       onSuccess={(data) => {
         console.log(data);
         onSubmit(data);
@@ -186,14 +154,34 @@ const Form = ({ onSubmit, data }) => {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          height: '400px',
+          height: '600px',
           justifyContent: 'space-between'
         }}
       >
         <TextFieldElement name="name" label="Name" required />
         <TextFieldElement name="priority" label="Priority" required />
+        <TextFieldElement name="projectId" label="projectId" required disabled />
+
+        <TextFieldElement type="number" name="manWeekEstimation" label="Weeks to finish" required />
+        <TextFieldElement
+          type="number"
+          name="maxParallelDegree"
+          label="Max coperating members"
+          required
+        />
         <TextFieldElement type="number" name="earliestStartWeekId" label="Start Week #" required />
         <TextFieldElement type="number" name="latestCompleteWeekId" label="End Week #" required />
+        <TextFieldElement name="requiredMemberTag" label="Required Tag" required />
+        <MultiSelectElement
+          options={options}
+          itemKey="id"
+          itemID="id"
+          itemLabel="name"
+          name="dependsOnSubProjectIds"
+          label="Dependencies"
+          showCheckbox
+          required
+        />
 
         <Button type={'submit'} variant={'contained'} color={'primary'}>
           Submit
@@ -202,8 +190,7 @@ const Form = ({ onSubmit, data }) => {
     </FormContainer>
   );
 };
-
-function Projects() {
+function SubProjects({ data }) {
   const [refreshFlag, setRefreshFlag] = useState(0);
   const refresh = () => setRefreshFlag((prev) => prev + 1);
   const [isDeleting, setDeletingStatus] = useState(false);
@@ -215,13 +202,15 @@ function Projects() {
       }
     : undefined;
   const addCB = (user) => {
+    console.log(user);
     addAPI(user);
     refresh();
   };
   const { users, isLoading } = useUser(refreshFlag);
 
+  console.log('projec', data);
   const [element, handleEdit] = useEditModal(Form, editAPI);
-  const [elementForSubproject, onExpand] = useEditModal(SubProjects, () => Promise.resolve());
+  const [elementForSubproject, onExpand] = useEditModal(Form, () => Promise.resolve());
 
   if (isLoading) return `loading`;
   return (
@@ -229,7 +218,7 @@ function Projects() {
       <h3>Projects</h3>
       <IconLabelButtons
         // onAdd={addCB}
-        formElement={<Form onSubmit={addCB} />}
+        formElement={<Form id={data.id} onSubmit={addCB} />}
         onDelete={() => {
           setDeletingStatus((previous) => !previous);
         }}
@@ -241,4 +230,4 @@ function Projects() {
   );
 }
 
-export { Projects };
+export { SubProjects };
