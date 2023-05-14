@@ -4,6 +4,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+Open this folder. 
+Run npm install
+Run npm start
+
+Open localhost:3000
+
+
 In the project directory, you can run:
 
 ### `npm start`

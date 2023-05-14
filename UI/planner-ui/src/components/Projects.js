@@ -16,25 +16,27 @@ import EditIcon from '@mui/icons-material/Edit';
 import { SubProjects } from './SubProject';
 let localData = [
   {
-    id: 'uuid1',
-    name: 'A',
-    priority: 0,
+    id: 'project-uuid-A',
+    name: 'subscription-service',
+    priority: 3,
     subProjects: [
       {
-        id: 'uuid2',
-        name: 'A-dev',
-        priority: 0,
+        id: 'A2',
+        projectId: 'project-uuid-A',
+        name: 'subscription-service-backend-dev',
+        priority: 3,
         manWeekEstimation: 2,
         maxParallelDegree: 1,
         earliestStartWeekId: 1,
         latestCompleteWeekId: 4,
-        dependsOnSubProjectIds: ['uuid1'],
+        dependsOnSubProjectIds: ['A1'],
         requiredMemberTag: 'backend'
       },
       {
-        id: 'uuid1',
-        name: 'A-prd',
-        priority: 0,
+        id: 'A1',
+        projectId: 'project-uuid-A',
+        name: 'subscription-service-prd',
+        priority: 3,
         manWeekEstimation: 1,
         maxParallelDegree: 1,
         earliestStartWeekId: 1,
@@ -44,45 +46,195 @@ let localData = [
       }
     ],
     earliestStartWeekId: 1,
-    latestCompleteWeekId: 4
+    latestCompleteWeekId: 8
   },
   {
-    id: 'uuid2',
-    name: 'B',
-    priority: 0,
+    id: 'project-uuid-B',
+    name: 'reward-service',
+    priority: 1,
     subProjects: [
       {
-        id: 'uuid4',
-        name: 'B-dev',
-        priority: 0,
+        id: 'B2',
+        projectId: 'project-uuid-B',
+        name: 'reward-service-bacnend-dev',
+        priority: 1,
+        manWeekEstimation: 1,
+        maxParallelDegree: 1,
+        earliestStartWeekId: 1,
+        latestCompleteWeekId: 8,
+        dependsOnSubProjectIds: ['B1'],
+        requiredMemberTag: 'backend'
+      },
+      {
+        id: 'B3',
+        projectId: 'project-uuid-B',
+        name: 'reward-service-frontend-dev',
+        priority: 1,
         manWeekEstimation: 2,
         maxParallelDegree: 1,
         earliestStartWeekId: 1,
         latestCompleteWeekId: 8,
-        dependsOnSubProjectIds: ['uuid3'],
-        requiredMemberTag: 'backend'
+        dependsOnSubProjectIds: ['B1'],
+        requiredMemberTag: 'frontend'
       },
       {
-        id: 'uuid3',
-        name: 'B-prd',
-        priority: 0,
+        id: 'B1',
+        projectId: 'project-uuid-B',
+        name: 'reward-service-prd',
+        priority: 1,
         manWeekEstimation: 1,
         maxParallelDegree: 1,
         earliestStartWeekId: 1,
         latestCompleteWeekId: 8,
         dependsOnSubProjectIds: [],
         requiredMemberTag: 'pm'
+      }
+    ],
+    earliestStartWeekId: 1,
+    latestCompleteWeekId: 8
+  },
+  {
+    id: 'project-uuid-C',
+    name: 'smp-plan-management',
+    priority: 3,
+    subProjects: [
+      {
+        id: 'C2',
+        projectId: 'project-uuid-C',
+        name: 'smp-plan-management-bacnend-dev',
+        priority: 1,
+        manWeekEstimation: 1,
+        maxParallelDegree: 1,
+        earliestStartWeekId: 1,
+        latestCompleteWeekId: 8,
+        dependsOnSubProjectIds: ['C1'],
+        requiredMemberTag: 'backend'
       },
       {
-        id: 'uuid5',
-        name: 'B-test',
-        priority: 0,
+        id: 'C3',
+        projectId: 'project-uuid-C',
+        name: 'smp-plan-management-frontend-dev',
+        priority: 1,
         manWeekEstimation: 2,
         maxParallelDegree: 1,
         earliestStartWeekId: 1,
         latestCompleteWeekId: 8,
-        dependsOnSubProjectIds: ['uuid3'],
-        requiredMemberTag: 'test'
+        dependsOnSubProjectIds: ['C2'],
+        requiredMemberTag: 'frontend'
+      },
+      {
+        id: 'C1',
+        projectId: 'project-uuid-C',
+        name: 'smp-plan-management-prd',
+        priority: 1,
+        manWeekEstimation: 1,
+        maxParallelDegree: 1,
+        earliestStartWeekId: 1,
+        latestCompleteWeekId: 8,
+        dependsOnSubProjectIds: [],
+        requiredMemberTag: 'pm'
+      }
+    ],
+    earliestStartWeekId: 1,
+    latestCompleteWeekId: 8
+  },
+  {
+    id: 'project-uuid-D',
+    name: 'communication-service',
+    priority: 2,
+    subProjects: [
+      {
+        id: 'D4',
+        projectId: 'project-uuid-D',
+        name: 'communication-service-android',
+        priority: 1,
+        manWeekEstimation: 2,
+        maxParallelDegree: 1,
+        earliestStartWeekId: 1,
+        latestCompleteWeekId: 8,
+        dependsOnSubProjectIds: ['D2', 'D3'],
+        requiredMemberTag: 'android'
+      },
+      {
+        id: 'D2',
+        projectId: 'project-uuid-D',
+        name: 'communication-service-feature1',
+        priority: 1,
+        manWeekEstimation: 1,
+        maxParallelDegree: 1,
+        earliestStartWeekId: 1,
+        latestCompleteWeekId: 8,
+        dependsOnSubProjectIds: ['C1', 'C2', 'D1'],
+        requiredMemberTag: 'backend'
+      },
+      {
+        id: 'D3',
+        projectId: 'project-uuid-D',
+        name: 'communication-service-feature2',
+        priority: 1,
+        manWeekEstimation: 1,
+        maxParallelDegree: 1,
+        earliestStartWeekId: 1,
+        latestCompleteWeekId: 8,
+        dependsOnSubProjectIds: ['D1'],
+        requiredMemberTag: 'backend'
+      },
+      {
+        id: 'D5',
+        projectId: 'project-uuid-D',
+        name: 'communication-service-ios',
+        priority: 1,
+        manWeekEstimation: 2,
+        maxParallelDegree: 1,
+        earliestStartWeekId: 1,
+        latestCompleteWeekId: 8,
+        dependsOnSubProjectIds: ['D2', 'D3'],
+        requiredMemberTag: 'ios'
+      },
+      {
+        id: 'D1',
+        projectId: 'project-uuid-D',
+        name: 'communication-service-prd',
+        priority: 1,
+        manWeekEstimation: 1,
+        maxParallelDegree: 1,
+        earliestStartWeekId: 1,
+        latestCompleteWeekId: 8,
+        dependsOnSubProjectIds: [],
+        requiredMemberTag: 'pm'
+      }
+    ],
+    earliestStartWeekId: 1,
+    latestCompleteWeekId: 8
+  },
+  {
+    id: 'project-uuid-E',
+    name: 'tech-improvement',
+    priority: 4,
+    subProjects: [
+      {
+        id: 'E2',
+        projectId: 'project-uuid-E',
+        name: 'db-optimization',
+        priority: 3,
+        manWeekEstimation: 2,
+        maxParallelDegree: 1,
+        earliestStartWeekId: 1,
+        latestCompleteWeekId: 4,
+        dependsOnSubProjectIds: [],
+        requiredMemberTag: 'backend'
+      },
+      {
+        id: 'E1',
+        projectId: 'project-uuid-E',
+        name: 'redis-optimization',
+        priority: 3,
+        manWeekEstimation: 1,
+        maxParallelDegree: 1,
+        earliestStartWeekId: 1,
+        latestCompleteWeekId: 4,
+        dependsOnSubProjectIds: [],
+        requiredMemberTag: 'backend'
       }
     ],
     earliestStartWeekId: 1,

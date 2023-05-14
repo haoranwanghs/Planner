@@ -15,115 +15,201 @@ let localData = {
   deadLineWeekId: null,
   plannedProjects: [
     {
-      id: 'uuid1',
-      name: 'A',
+      id: 'project-uuid-C',
+      name: 'smp-plan-management',
       priority: 3,
-      subProjectIds: ['uuid2', 'uuid1'],
-      memberPlannedSubProjectsMap: {}
-    },
-    {
-      id: 'uuid2',
-      name: 'B',
-      priority: 1,
-      subProjectIds: ['uuid4', 'uuid5', 'uuid3'],
+      subProjectIds: ['C2', 'C3', 'C1'],
       memberPlannedSubProjectsMap: {
-        'Member(name=pm1, tag=pm)': [
+        'Member(name=Deepak, tag=pm)': [
           {
-            id: 'uuid3',
-            projectId: 'uuid2',
-            name: 'B-prd',
+            id: 'C1',
+            projectId: 'project-uuid-C',
+            name: 'smp-plan-management-prd',
             dependsOnSubProjectIds: [],
-            actualStartWeekId: 1,
-            actualEndWeekId: 1
-          }
-        ],
-        'Member(name=backend1, tag=backend)': [
-          {
-            id: 'uuid4',
-            projectId: 'uuid2',
-            name: 'B-dev1',
-            dependsOnSubProjectIds: ['uuid3'],
             actualStartWeekId: 2,
             actualEndWeekId: 2
           }
         ],
-        'Member(name=frontend1, tag=frontend)': [
+        'Member(name=Arun, tag=backend)': [
           {
-            id: 'uuid5',
-            projectId: 'uuid2',
-            name: 'B-dev2',
-            dependsOnSubProjectIds: ['uuid3'],
-            actualStartWeekId: 2,
+            id: 'C2',
+            projectId: 'project-uuid-C',
+            name: 'smp-plan-management-bacnend-dev',
+            dependsOnSubProjectIds: ['C1'],
+            actualStartWeekId: 3,
             actualEndWeekId: 3
+          }
+        ],
+        'Member(name=Ayesha, tag=frontend)': [
+          {
+            id: 'C3',
+            projectId: 'project-uuid-C',
+            name: 'smp-plan-management-frontend-dev',
+            dependsOnSubProjectIds: ['C2'],
+            actualStartWeekId: 4,
+            actualEndWeekId: 5
           }
         ]
       }
     },
     {
-      id: 'uuid3',
-      name: 'C',
-      priority: 2,
-      subProjectIds: ['uuid7', 'uuid8', 'uuid6'],
+      id: 'project-uuid-E',
+      name: 'tech-improvement',
+      priority: 4,
+      subProjectIds: ['E2', 'E1'],
+      memberPlannedSubProjectsMap: {}
+    },
+    {
+      id: 'project-uuid-A',
+      name: 'subscription-service',
+      priority: 3,
+      subProjectIds: ['A2', 'A1'],
       memberPlannedSubProjectsMap: {
-        'Member(name=pm1, tag=pm)': [
+        'Member(name=Utsav, tag=pm)': [
           {
-            id: 'uuid6',
-            projectId: 'uuid3',
-            name: 'C-prd',
+            id: 'A1',
+            projectId: 'project-uuid-A',
+            name: 'subscription-service-prd',
             dependsOnSubProjectIds: [],
             actualStartWeekId: 2,
             actualEndWeekId: 2
           }
         ],
-        'Member(name=backend1, tag=backend)': [
+        'Member(name=Davendar, tag=backend)': [
           {
-            id: 'uuid7',
-            projectId: 'uuid3',
-            name: 'C-dev1',
-            dependsOnSubProjectIds: ['uuid6'],
+            id: 'A2',
+            projectId: 'project-uuid-A',
+            name: 'subscription-service-backend-dev',
+            dependsOnSubProjectIds: ['A1'],
             actualStartWeekId: 3,
-            actualEndWeekId: 3
+            actualEndWeekId: 4
+          }
+        ]
+      }
+    },
+    {
+      id: 'project-uuid-D',
+      name: 'communication-service',
+      priority: 2,
+      subProjectIds: ['D4', 'D2', 'D3', 'D5', 'D1'],
+      memberPlannedSubProjectsMap: {
+        'Member(name=Utsav, tag=pm)': [
+          {
+            id: 'D1',
+            projectId: 'project-uuid-D',
+            name: 'communication-service-prd',
+            dependsOnSubProjectIds: [],
+            actualStartWeekId: 1,
+            actualEndWeekId: 1
           }
         ],
-        'Member(name=frontend1, tag=frontend)': [
+        'Member(name=Harsh, tag=ios)': [
           {
-            id: 'uuid8',
-            projectId: 'uuid3',
-            name: 'C-dev2',
-            dependsOnSubProjectIds: ['uuid7'],
+            id: 'D5',
+            projectId: 'project-uuid-D',
+            name: 'communication-service-ios',
+            dependsOnSubProjectIds: ['D2', 'D3'],
+            actualStartWeekId: 5,
+            actualEndWeekId: 6
+          }
+        ],
+        'Member(name=Arun, tag=backend)': [
+          {
+            id: 'D2',
+            projectId: 'project-uuid-D',
+            name: 'communication-service-feature1',
+            dependsOnSubProjectIds: ['C1', 'C2', 'D1'],
             actualStartWeekId: 4,
-            actualEndWeekId: 5
+            actualEndWeekId: 4
+          }
+        ],
+        'Member(name=Abhilash, tag=android)': [
+          {
+            id: 'D4',
+            projectId: 'project-uuid-D',
+            name: 'communication-service-android',
+            dependsOnSubProjectIds: ['D2', 'D3'],
+            actualStartWeekId: 5,
+            actualEndWeekId: 6
+          }
+        ],
+        'Member(name=Davendar, tag=backend)': [
+          {
+            id: 'D3',
+            projectId: 'project-uuid-D',
+            name: 'communication-service-feature2',
+            dependsOnSubProjectIds: ['D1'],
+            actualStartWeekId: 2,
+            actualEndWeekId: 2
+          }
+        ]
+      }
+    },
+    {
+      id: 'project-uuid-B',
+      name: 'reward-service',
+      priority: 1,
+      subProjectIds: ['B2', 'B3', 'B1'],
+      memberPlannedSubProjectsMap: {
+        'Member(name=Deepak, tag=pm)': [
+          {
+            id: 'B1',
+            projectId: 'project-uuid-B',
+            name: 'reward-service-prd',
+            dependsOnSubProjectIds: [],
+            actualStartWeekId: 1,
+            actualEndWeekId: 1
+          }
+        ],
+        'Member(name=Arun, tag=backend)': [
+          {
+            id: 'B2',
+            projectId: 'project-uuid-B',
+            name: 'reward-service-bacnend-dev',
+            dependsOnSubProjectIds: ['B1'],
+            actualStartWeekId: 2,
+            actualEndWeekId: 2
+          }
+        ],
+        'Member(name=Ayesha, tag=frontend)': [
+          {
+            id: 'B3',
+            projectId: 'project-uuid-B',
+            name: 'reward-service-frontend-dev',
+            dependsOnSubProjectIds: ['B1'],
+            actualStartWeekId: 2,
+            actualEndWeekId: 3
           }
         ]
       }
     }
   ],
   unplannedProjects: {
-    uuid1: [
+    'project-uuid-E': [
       {
-        id: 'uuid2',
-        projectId: 'uuid1',
-        name: 'A-dev',
+        id: 'E2',
+        projectId: 'project-uuid-E',
+        name: 'db-optimization',
         priority: 3,
         manWeekEstimation: 2,
         maxParallelDegree: 1,
         earliestStartWeekId: 1,
         latestCompleteWeekId: 4,
-        dependsOnSubProjectIds: ['uuid1'],
+        dependsOnSubProjectIds: [],
         requiredMemberTag: 'backend',
         reason: 'not enough resource'
       },
       {
-        id: 'uuid1',
-        projectId: 'uuid1',
-        name: 'A-prd',
+        id: 'E1',
+        projectId: 'project-uuid-E',
+        name: 'redis-optimization',
         priority: 3,
         manWeekEstimation: 1,
         maxParallelDegree: 1,
         earliestStartWeekId: 1,
         latestCompleteWeekId: 4,
         dependsOnSubProjectIds: [],
-        requiredMemberTag: 'pm',
+        requiredMemberTag: 'backend',
         reason: 'not enough resource'
       }
     ]
@@ -135,10 +221,6 @@ google.charts.load('current', { packages: ['gantt'] });
 google.charts.load('current', { packages: ['timeline'] });
 
 // google.charts.setOnLoadCallback(drawChart);
-
-function daysToMilliseconds(days) {
-  return days * 24 * 60 * 60 * 1000;
-}
 
 function depFormatter(
   subprojectId,
@@ -285,7 +367,7 @@ function drawDepChart(rawData, selected) {
   // );
 
   var options = {
-    height: '300px'
+    height: 500
   };
 
   var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
@@ -328,18 +410,47 @@ function drawTimelineChart(rawData) {
   dataTable.addColumn({ type: 'date', id: 'Start' });
   dataTable.addColumn({ type: 'date', id: 'End' });
 
+  rows = [];
+  let max = 1;
+  let pNames: string[] = [];
+  let numbers: number[] = [];
   rawData.plannedProjects.map((project) => {
     const name = project.name;
+    console.log(project.memberPlannedSubProjectsMap);
+    if (
+      !project.memberPlannedSubProjectsMap ||
+      !Object.keys(project.memberPlannedSubProjectsMap).length
+    ) {
+      return;
+    }
+    pNames.push(name);
+    if (numbers.length) {
+      numbers.push(numbers[numbers.length - 1]);
+    } else {
+      numbers.push(0);
+    }
+    // numbers.push(0);
 
+    // rows.push([
+    //   name,
+    //   '',
+    //   '',
+    //   getDate(6),
+    //   getDate(6)
+    // ])
     Object.keys(project.memberPlannedSubProjectsMap).map((key) => {
       const projectFormember = project.memberPlannedSubProjectsMap[key];
       console.log(key, projectFormember);
+      numbers[numbers.length - 1] += projectFormember.length ?? 0;
+
       projectFormember.map((subp) => {
         console.log(key, subp);
 
+        max = Math.max(max, subp.actualEndWeekId);
+        console.log(max, subp, subp.actualEndWeekId);
         rows.push(
           timelineRowFormatter(
-            `${name}- ${key}`,
+            `${name}-${key}`,
             subp.name,
             subp.actualStartWeekId,
             subp.actualEndWeekId
@@ -348,11 +459,23 @@ function drawTimelineChart(rawData) {
       });
     });
   });
+  console.log(rows, pNames, numbers, max);
+  numbers.pop();
+  numbers.unshift(0);
+  max = max + 1;
+  let j = 0;
+  for (let i = numbers.length - 1; i >= 0; i--) {
+    // j+=numbers[i]
+    // if (numbers[i] === 0) {
+    //   continue;
+    // }
+    rows.splice(numbers[i], 0, [`Project ${pNames[i]}`, '', '', getDate(max), getDate(max)]);
+  }
 
   const options = {
     colors: ['#ced2cc', '#4cb5f5', '#1f3f49', '#d32d41', '#6ab187', '#b3c100'],
     colorByRowLabel: true,
-    height: '500px'
+    height: '700px'
   };
   console.log(rows);
   dataTable.addRows(rows);
@@ -398,7 +521,7 @@ function ChartPanel() {
             if (typeof res === 'string') {
               setTextAsSoleChild('chart_div', res);
             } else {
-              setTextAsSoleChild('critical_path', 'Critical Path of selected SubProject');
+              setTextAsSoleChild('critical_path', `Critical Path of selected SubProject ${subpName}`);
             }
 
             // console.log(
@@ -418,13 +541,13 @@ function ChartPanel() {
   }, [refresh, data]);
   return (
     <div style={{ height: '100%', minWidth: '1000px' }}>
-      <div>
+      <div style={{ paddingBottom: '12px' }}>
         <Button variant="outlined" onClick={refresh}>
           Reload
         </Button>
       </div>
       {/* <Chart chartType='Gantt' options={generateProps({})} width="100%" height="400px" legendToggle /> */}
-      <div>
+      <div style={{ textAlign: 'left' }}>
         <div>
           <h5>Unplanned Project</h5>
           <div>
@@ -439,7 +562,11 @@ function ChartPanel() {
                     </div>
                     <div style={{ display: 'flex' }}>
                       {data.unplannedProjects[unplannedProjectId].map((subp) => {
-                        return <Chip label={subp.name} />;
+                        return (
+                          <span style={{ paddingLeft: '8px' }}>
+                            <Chip label={subp.name} />
+                          </span>
+                        );
                       })}
                     </div>
                   </div>
@@ -447,10 +574,11 @@ function ChartPanel() {
               })}
           </div>
         </div>
-        <div id="example2.1" style={{ height: '400px' }}></div>
+        <h5>Planned Project</h5>
+        <div id="example2.1" style={{ height: '800px' }}></div>
         <div>
           <h5 id="critical_path"></h5>
-          <div id="chart_div"></div>
+          <div id="chart_div" style={{ height: '400px' }}></div>
         </div>
       </div>
     </div>

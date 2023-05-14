@@ -16,22 +16,22 @@ import { useNow } from '@mui/x-date-pickers/internals';
 
 let localData = [
   {
-    id: 'uuid2',
-    name: 'A-dev',
-    projectId: 'uuid1',
-    priority: 0,
+    id: 'A2',
+    projectId: 'project-uuid-A',
+    name: 'subscription-service-backend-dev',
+    priority: 3,
     manWeekEstimation: 2,
     maxParallelDegree: 1,
     earliestStartWeekId: 1,
     latestCompleteWeekId: 4,
-    dependsOnSubProjectIds: ['uuid1'],
+    dependsOnSubProjectIds: ['A1'],
     requiredMemberTag: 'backend'
   },
   {
-    id: 'uuid1',
-    projectId: 'uuid1',
-    name: 'A-prd',
-    priority: 0,
+    id: 'A1',
+    projectId: 'project-uuid-A',
+    name: 'subscription-service-prd',
+    priority: 3,
     manWeekEstimation: 1,
     maxParallelDegree: 1,
     earliestStartWeekId: 1,

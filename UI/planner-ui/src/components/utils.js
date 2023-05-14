@@ -76,7 +76,7 @@ function destroyAndMountNewNode(id) {
   if (oldNode) {
     const newNode = document.createElement('div');
     newNode.id = id;
-    newNode.style={minHeight:'300px'}
+    newNode.style={minHeight:'500px'}
     oldNode.parentNode.replaceChild(newNode, oldNode);
   }
 }

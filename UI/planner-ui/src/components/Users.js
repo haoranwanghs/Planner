@@ -43,7 +43,7 @@ function UserAvatar({ user, onDelete, onEdit }) {
         primary={user.name}
         secondary={
           <div style={{ padding: '2px' }}>
-            <Chip label={user.tags} />
+            <Chip label={user.tag} />
           </div>
         }
       />
@@ -64,9 +64,38 @@ function UsersList({ users, onDelete, onEdit }) {
   );
 }
 let localUsers = [
-  { name: 'Fan Cao', avatarSrc: 'abc', tags: 'frontend' },
-  { name: 'Tianhang Yang', avatarSrc: 'abc', tags: 'backend' },
-  { name: 'Haoran Wang', avatarSrc: 'abc', tags: 'backend' }
+  {
+    name: 'Abhilash',
+    tag: 'android'
+  },
+  {
+    name: 'Arun',
+    tag: 'backend'
+  },
+  {
+    name: 'Ayesha',
+    tag: 'frontend'
+  },
+  {
+    name: 'Davendar',
+    tag: 'backend'
+  },
+  {
+    name: 'Deepak',
+    tag: 'pm'
+  },
+  {
+    name: 'Harsh',
+    tag: 'ios'
+  },
+  {
+    name: 'Manali',
+    tag: 'frontend'
+  },
+  {
+    name: 'Utsav',
+    tag: 'pm'
+  }
 ];
 const fetcher = (...args) => Promise.resolve(localUsers);
 
@@ -109,7 +138,7 @@ const Form = ({ onSubmit, data }) => {
         }}
       >
         <TextFieldElement name="name" label="Name" required />
-        <TextFieldElement name="tags" label="Tag" required />
+        <TextFieldElement name="tag" label="Tag" required />
         <Button type={'submit'} variant={'contained'} color={'primary'}>
           Submit
         </Button>
