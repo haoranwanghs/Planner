@@ -181,16 +181,19 @@ public class Reportor {
     Allocation tryPlan(String member, Set<Integer> userPlanned, int earliest, int end, int total) {
         for (int from = earliest; from <= end + 1 - total; ++from) {
             boolean possible = true;
-            for (int i = from; i <= total; ++i) {
-                if (userPlanned.contains(i)) {
+
+            for (int i = 0; i < total; ++i) {
+                int weekId = from + i;
+                if (userPlanned.contains(weekId)) {
                     possible = false;
                     break;
                 }
             }
 
             if (possible) {
-                for (int i = from; i <= total; ++i) {
-                    userPlanned.add(i);
+                for (int i = 0; i < total; ++i) {
+                    int weekId = from + i;
+                    userPlanned.add(weekId);
                 }
 
                 return Allocation.builder()
