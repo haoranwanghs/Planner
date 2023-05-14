@@ -49,7 +49,7 @@ insert into members (name, tag) values ("ios1", "ios");
 insert into members (name, tag) values ("pm1", "pm");
 insert into members (name, tag) values ("android1", "android");
 
-insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("uuid1", "A", 3, 1, 4);
+insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("uuid1", "A", 3, 1, 8);
 insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("uuid2", "B", 1, 1, 8);
 insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("uuid3", "C", 2, 1, 8);
 

@@ -1,8 +1,11 @@
 package com.hotstar.planner.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hotstar.planner.dto.PlannedProject;
+import com.hotstar.planner.dto.PlannedSubProject;
+import com.hotstar.planner.dto.Report;
+import com.hotstar.planner.dto.UnplannedSubProject;
 import com.hotstar.planner.entities.Member;
+import com.hotstar.planner.entities.Project;
 import com.hotstar.planner.entities.SubProject;
 import com.hotstar.planner.repository.MemberRepository;
 import java.util.Collections;
@@ -12,6 +15,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,18 +27,10 @@ public class ReporterProxy {
     ProjectService projectService;
     SubProjectService subProjectService;
 
-    public void generate() {
+    public Report generate() {
         Reportor reportor = buildReporter();
         reportor.generate();
-
-
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            System.out.println(objectMapper.writeValueAsString(reportor));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        return convertToDto(reportor);
 
     }
 
@@ -102,10 +99,99 @@ public class ReporterProxy {
 
     }
 
-//    private List<PlannedProject> convertToDto(Reportor reportor) {
-//        Map<String, Reportor.PlannedProject> finalPlannedProjectMap = reportor.getFinalPlannedProjectMap();
-//
-//    }
-//
-//    private
+
+
+    private Map<String, Project> getNameToProjectEntity() {
+        return projectService.listProjects().stream().collect(Collectors.toMap(Project::getName, Function.identity()));
+    }
+
+    private Map<String, SubProject> getNameToSubProjectEntity() {
+        return subProjectService.listSubProjects().stream().collect(Collectors.toMap(SubProject::getName, Function.identity()));
+    }
+
+    private Map<String, Member> getNameToMemberEntity() {
+        return memberRepository.findAll().stream().collect(Collectors.toMap(Member::getName, Function.identity()));
+    }
+
+    private Report convertToDto(Reportor reportor) {
+        Map<String, Reportor.PlannedProject> finalPlannedProjectMap = reportor.getFinalPlannedProjectMap();
+        Map<String, Project> nameToProjectEntity = getNameToProjectEntity();
+        Map<String, SubProject> nameToSubProjectEntity = getNameToSubProjectEntity();
+        Map<String, Member> nameToMemberEntity = getNameToMemberEntity();
+        List<PlannedProject> plannedProjectList = new LinkedList<>();
+        for (Reportor.PlannedProject plannedProject : finalPlannedProjectMap.values()) {
+            PlannedProject project = getPlannedProject(plannedProject, nameToProjectEntity, nameToSubProjectEntity, nameToMemberEntity);
+            plannedProjectList.add(project);
+        }
+
+
+        Map<String, List<UnplannedSubProject>> unplannedSubProjectMap = new HashMap<>();
+        for (SubProject subProject : nameToSubProjectEntity.values()) {
+            if (!reportor.getFinalPlannedSubprojectMap().containsKey(subProject.getName())) {
+                UnplannedSubProject unplannedSubProject = new UnplannedSubProject(subProject, "not enough resource");
+                List<UnplannedSubProject> list;
+                if (unplannedSubProjectMap.containsKey(unplannedSubProject.getProjectId())) {
+                    list = unplannedSubProjectMap.get(unplannedSubProject.getProjectId());
+                } else {
+                    list = new LinkedList<>();
+                    unplannedSubProjectMap.put(unplannedSubProject.getProjectId(), list);
+                }
+                list.add(unplannedSubProject);
+            }
+        }
+
+
+        return Report.builder()
+            .plannedProjects(plannedProjectList)
+            .unplannedProjects(unplannedSubProjectMap)
+            .build();
+
+    }
+
+    private PlannedProject getPlannedProject(Reportor.PlannedProject finalPlannedProject,
+                                             Map<String, Project> nameToProjectEntity,
+                                             Map<String, SubProject> nameToSubProjectEntity,
+                                             Map<String, Member> nameToMemberEntity) {
+        Project projectEntity = nameToProjectEntity.get(finalPlannedProject.getProject().getName());
+        Map<Member, List<PlannedSubProject>> memberListMap = getMemberPlannedSubProjectsMap(finalPlannedProject, nameToSubProjectEntity, nameToMemberEntity);
+        return PlannedProject.builder()
+            .id(projectEntity.getId())
+            .name(projectEntity.getName())
+            .priority(projectEntity.getPriority())
+            .subProjectIds(projectEntity.getSubProjects().stream().map(SubProject::getId).collect(Collectors.toList()))
+            .memberPlannedSubProjectsMap(memberListMap)
+            .build();
+    }
+
+    private Map<Member, List<PlannedSubProject>> getMemberPlannedSubProjectsMap(Reportor.PlannedProject finalPlannedProject,
+                                                                                Map<String, SubProject> nameToSubProjectEntity,
+                                                                                Map<String, Member> nameToMemberEntity) {
+        Map<Member, List<PlannedSubProject>> memberPlannedSubProjectsMap = new HashMap<>();
+
+        for (Reportor.PlannedSubproject plannedSubproject : finalPlannedProject.getSubprojects()) {
+            String memberName = plannedSubproject.getAllocation().getMember();
+            Member member = nameToMemberEntity.get(memberName);
+            SubProject subProject = nameToSubProjectEntity.get(plannedSubproject.getSubproject().getName());
+            Integer actualStart = plannedSubproject.getAllocation().getSchedule().getStartWeekId();
+            Integer actualEnd = plannedSubproject.getAllocation().getSchedule().getEndWeekId();
+            List<PlannedSubProject> plannedSubProjectList;
+            if (memberPlannedSubProjectsMap.containsKey(member)) {
+                plannedSubProjectList = memberPlannedSubProjectsMap.get(member);
+            } else {
+                plannedSubProjectList = new LinkedList<>();
+                memberPlannedSubProjectsMap.put(member, plannedSubProjectList);
+            }
+            PlannedSubProject plannedSubProject = PlannedSubProject.builder()
+                .id(subProject.getId())
+                .name(subProject.getName())
+                .projectId(subProject.getProjectId())
+                .actualStartWeekId(actualStart)
+                .actualEndWeekId(actualEnd)
+                .dependsOnSubProjectIds(subProject.getDependsOnSubProjectIds())
+                .dependeeSubprojectIds(null)
+                .build();
+            plannedSubProjectList.add(plannedSubProject);
+        }
+        return memberPlannedSubProjectsMap;
+    }
 }

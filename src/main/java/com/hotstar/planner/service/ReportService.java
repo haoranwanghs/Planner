@@ -25,15 +25,8 @@ public class ReportService {
     ReporterProxy reporterProxy;
 
     public Report generate(Integer deadlineWeekId) {
-        Report report = Report.builder().deadLineWeekId(deadlineWeekId).build();
-        reporterProxy.generate();
-        return report;
+        return reporterProxy.generate();
     }
-//    public Report generate(Integer deadlineWeekId) {
-//        Report report = Report.builder().deadLineWeekId(deadlineWeekId).build();
-//        func();
-//        return report;
-//    }
 
     private Map<Member, List<PlannedSubProject>> buildMemberBucket() {
         List<Member> members = memberRepository.findAll();
