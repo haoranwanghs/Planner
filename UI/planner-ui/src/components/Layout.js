@@ -27,7 +27,7 @@ export default function BasicGrid({ Users, Projects, Chart }) {
               <Item>{Projects}</Item>
             </Grid>
             <Grid item xs={8}>
-              <Item>xs=4</Item>
+              <Item>{Chart}</Item>
             </Grid>
           </Grid>
         </Box>

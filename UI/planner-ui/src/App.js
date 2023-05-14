@@ -1,8 +1,11 @@
 import logo from './logo.svg';
 import { Users } from './components/Users';
 import { Projects } from './components/Projects';
+import { ChartPanel } from './components/Chart.tsx';
+
 import DenseAppBar from './components/AppBar';
 import BasicGrid from './components/Layout';
+
 import './App.css';
 
 function App() {
@@ -23,7 +26,7 @@ function App() {
         </a>
       </header> */}
       <DenseAppBar />
-      <BasicGrid Users={<Users />} Projects={<Projects />} />
+      <BasicGrid Users={<Users />} Projects={<Projects />} Chart={<ChartPanel />} />
     </div>
   );
 }
