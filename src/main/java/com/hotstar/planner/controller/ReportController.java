@@ -16,7 +16,6 @@ public class ReportController {
     ReportService reportService;
     @GetMapping
     public Report generate(Integer deadlineWeekId) {
-        return reportService.mock();
-//        return reportService.generate(deadlineWeekId);
+        return reportService.generate(deadlineWeekId);
     }
 }

@@ -10,8 +10,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.ToString;
 
-@Data
+@Getter
 public class Reportor {
     private Map<String, Subproject> subprojects;
     private Map<String, Project> projectMap;
@@ -19,6 +21,14 @@ public class Reportor {
     private Map<String, PlannedSubproject> finalPlannedSubprojectMap;
     private Map<String, PlannedProject> finalPlannedProjectMap;
     private Map<String, Set<Integer>> finalUserPlan;
+
+    public Reportor(Map<String, Subproject> subprojects, Map<String, Project> projectMap, Map<String, Set<Integer>> finalUserPlan) {
+        this.subprojects = subprojects;
+        this.projectMap = projectMap;
+        this.finalPlannedSubprojectMap = new HashMap<>();
+        this.finalPlannedProjectMap = new HashMap<>();
+        this.finalUserPlan = finalUserPlan;
+    }
 
     @Data
     @Builder
@@ -35,6 +45,7 @@ public class Reportor {
     }
 
     @Data
+    @Builder
     static class Subproject {
         private final String name;
         private final String projectName;
@@ -46,6 +57,7 @@ public class Reportor {
     }
 
     @Data
+    @Builder
     static class Project {
         private final String name;
         private final List<Subproject> subprojects;
@@ -135,8 +147,8 @@ public class Reportor {
         for (Subproject dependency : subproject.getDependencies()) {
             Allocation allocation = plan(dependency, plannedSubprojectMap, userPlan);
             if (allocation != null) {
-                if (allocation.schedule.endWeekId > earliest) {
-                    earliest = allocation.schedule.endWeekId;
+                if (allocation.schedule.endWeekId + 1 > earliest) {
+                    earliest = allocation.schedule.endWeekId + 1;
                 }
             } else {
                 return null;

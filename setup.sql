@@ -43,15 +43,15 @@ create table `sub_projects`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
-insert into members (name, tag) values ("user1", "backend");
-insert into members (name, tag) values ("user2", "frontend");
-insert into members (name, tag) values ("user3", "ios");
-insert into members (name, tag) values ("user4", "pm");
-insert into members (name, tag) values ("user5", "android");
+insert into members (name, tag) values ("backend1", "backend");
+insert into members (name, tag) values ("frontend1", "frontend");
+insert into members (name, tag) values ("ios1", "ios");
+insert into members (name, tag) values ("pm1", "pm");
+insert into members (name, tag) values ("android1", "android");
 
-insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("uuid1", "A", 1, 1, 4);
-insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("uuid2", "B", 2, 1, 8);
-insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("uuid3", "C", 3, 1, 8);
+insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("uuid1", "A", 3, 1, 4);
+insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("uuid2", "B", 1, 1, 8);
+insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("uuid3", "C", 2, 1, 8);
 
 
 insert into sub_projects(id, name, priority, project_id, man_week_estimation, max_parallel_degree, earliest_start_week_id, latest_complete_week_id, required_member_tag) VALUES
@@ -71,4 +71,4 @@ insert into sub_projects(id, name, priority, project_id, man_week_estimation, ma
 insert into sub_projects(id, name, priority, project_id, man_week_estimation, max_parallel_degree, earliest_start_week_id, latest_complete_week_id, required_member_tag, depends_on_sub_project_ids) VALUES
     ("uuid7", "C-dev1", 1, "uuid3", 1, 1, 1, 8, "backend", "uuid6");
 insert into sub_projects(id, name, priority, project_id, man_week_estimation, max_parallel_degree, earliest_start_week_id, latest_complete_week_id, required_member_tag, depends_on_sub_project_ids) VALUES
-    ("uuid8", "C-dev2", 1, "uuid3", 2, 1, 1, 8, "frontend", "uuid6");
+    ("uuid8", "C-dev2", 1, "uuid3", 2, 1, 1, 8, "frontend", "uuid7");
