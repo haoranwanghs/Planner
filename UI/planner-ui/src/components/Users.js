@@ -148,7 +148,7 @@ const Form = ({ onSubmit, data }) => {
 };
 
 const addAPI = (user) => {
-  localUsers.push(user);
+  localUsers.unshift(user);
   console.log(localUsers);
   return Promise.resolve();
 };

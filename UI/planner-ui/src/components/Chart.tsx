@@ -396,7 +396,7 @@ const timelineRowFormatter = (name, subprojectName, actualStartWeekId, actualEnd
   return [
     name,
     subprojectName,
-    subprojectName,
+    // subprojectName,
     getDate(actualStartWeekId),
     getDate(actualEndWeekId + 1)
   ];
@@ -410,7 +410,7 @@ function drawTimelineChart(rawData) {
 
   dataTable.addColumn({ type: 'string', id: 'Term' });
   dataTable.addColumn({ type: 'string', id: 'Name' });
-  dataTable.addColumn({ type: 'string', role: 'tooltip' });
+  // dataTable.addColumn({ type: 'string', role: 'tooltip' });
   dataTable.addColumn({ type: 'date', id: 'Start' });
   dataTable.addColumn({ type: 'date', id: 'End' });
 
@@ -454,7 +454,7 @@ function drawTimelineChart(rawData) {
         console.log(max, subp, subp.actualEndWeekId);
         rows.push(
           timelineRowFormatter(
-            `${name} ${`_`} ${extractName(key)}`,
+            `${name} ${`_By_`} ${extractName(key)}`,
             subp.name,
             subp.actualStartWeekId,
             subp.actualEndWeekId
@@ -473,7 +473,7 @@ function drawTimelineChart(rawData) {
     // if (numbers[i] === 0) {
     //   continue;
     // }
-    rows.splice(numbers[i], 0, [`Project ${pNames[i]}`, '', '', getDate(max), getDate(max)]);
+    rows.splice(numbers[i], 0, [`Project ${pNames[i]}`, '', getDate(max), getDate(max)]);
   }
 
   const options = {
