@@ -69,7 +69,7 @@ function UserAvatar({ user, onDelete, onEdit }) {
   );
 }
 const addAPI = (data) => {
-  localData.push({ id: `${Date.now()}`, ...data });
+  localData.unshift({ id: `${Date.now()}`, ...data });
   console.log(localData);
   return Promise.resolve();
 };
@@ -180,7 +180,7 @@ const Form = ({ onSubmit, data, id }) => {
           name="dependsOnSubProjectIds"
           label="Dependencies"
           showCheckbox
-          required
+        //   required
         />
 
         <Button type={'submit'} variant={'contained'} color={'primary'}>

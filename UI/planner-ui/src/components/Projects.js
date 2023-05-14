@@ -275,7 +275,7 @@ function UserAvatar({ user, onDelete, onEdit, onExpand }) {
   );
 }
 const addAPI = (data) => {
-  localData.push(data);
+  localData.unshift(data);
   console.log(localData);
   return Promise.resolve();
 };
