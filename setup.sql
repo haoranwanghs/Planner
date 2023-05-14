@@ -8,8 +8,8 @@ create table `members`
     `tag`  varchar(255) NOT NULL,
     PRIMARY KEY (`name`)
 ) ENGINE = InnoDB
- DEFAULT CHARSET = utf8mb4
- COLLATE = utf8mb4_unicode_ci;
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci;
 
 
 create table `projects`
@@ -44,6 +44,7 @@ create table `sub_projects`
   COLLATE = utf8mb4_unicode_ci;
 
 insert into members (name, tag) values ("pm1", "pm");
+insert into members (name, tag) values ("pm2", "pm");
 insert into members (name, tag) values ("backend1", "backend");
 insert into members (name, tag) values ("backend2", "backend");
 insert into members (name, tag) values ("backend3", "backend");
@@ -52,26 +53,36 @@ insert into members (name, tag) values ("frontend2", "frontend");
 insert into members (name, tag) values ("ios1", "ios");
 insert into members (name, tag) values ("android1", "android");
 
-insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("uuid1", "A", 3, 1, 8);
-insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("uuid2", "B", 1, 1, 8);
-insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("uuid3", "C", 2, 1, 8);
+insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("project-uuid-A", "A", 3, 1, 8);
+insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("project-uuid-B", "B", 1, 1, 8);
+insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("project-uuid-C", "C", 2, 1, 8);
+insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("project-uuid-D", "D", 2, 1, 8);
 
 
 insert into sub_projects(id, name, priority, project_id, man_week_estimation, max_parallel_degree, earliest_start_week_id, latest_complete_week_id, required_member_tag) VALUES
-    ("uuid1", "A-prd", 3, "uuid1", 1, 1, 1, 4, "pm");
+    ("A1", "A-prd", 3, "project-uuid-A", 1, 1, 1, 4, "pm");
 insert into sub_projects(id, name, priority, project_id, man_week_estimation, max_parallel_degree, earliest_start_week_id, latest_complete_week_id, required_member_tag, depends_on_sub_project_ids) VALUES
-    ("uuid2", "A-dev", 3, "uuid1", 2, 1, 1, 4, "backend", "uuid1");
+    ("A2", "A-dev", 3, "project-uuid-A", 2, 1, 1, 4, "backend", "A1");
 
 insert into sub_projects(id, name, priority, project_id, man_week_estimation, max_parallel_degree, earliest_start_week_id, latest_complete_week_id, required_member_tag) VALUES
-    ("uuid3", "B-prd", 1, "uuid2", 1, 1, 1, 8, "pm");
+    ("B1", "B-prd", 1, "project-uuid-B", 1, 1, 1, 8, "pm");
 insert into sub_projects(id, name, priority, project_id, man_week_estimation, max_parallel_degree, earliest_start_week_id, latest_complete_week_id, required_member_tag, depends_on_sub_project_ids) VALUES
-    ("uuid4", "B-dev1", 1, "uuid2", 1, 1, 1, 8, "backend", "uuid3");
+    ("B2", "B-dev1", 1, "project-uuid-B", 1, 1, 1, 8, "backend", "B1");
 insert into sub_projects(id, name, priority, project_id, man_week_estimation, max_parallel_degree, earliest_start_week_id, latest_complete_week_id, required_member_tag, depends_on_sub_project_ids) VALUES
-    ("uuid5", "B-dev2", 1, "uuid2", 2, 1, 1, 8, "frontend", "uuid3");
+    ("B3", "B-dev2", 1, "project-uuid-B", 2, 1, 1, 8, "frontend", "B1");
 
 insert into sub_projects(id, name, priority, project_id, man_week_estimation, max_parallel_degree, earliest_start_week_id, latest_complete_week_id, required_member_tag) VALUES
-    ("uuid6", "C-prd", 1, "uuid3", 1, 1, 1, 8, "pm");
+    ("C1", "C-prd", 1, "project-uuid-C", 1, 1, 1, 8, "pm");
 insert into sub_projects(id, name, priority, project_id, man_week_estimation, max_parallel_degree, earliest_start_week_id, latest_complete_week_id, required_member_tag, depends_on_sub_project_ids) VALUES
-    ("uuid7", "C-dev1", 1, "uuid3", 1, 1, 1, 8, "backend", "uuid6");
+    ("C2", "C-dev1", 1, "project-uuid-C", 1, 1, 1, 8, "backend", "C1");
 insert into sub_projects(id, name, priority, project_id, man_week_estimation, max_parallel_degree, earliest_start_week_id, latest_complete_week_id, required_member_tag, depends_on_sub_project_ids) VALUES
-    ("uuid8", "C-dev2", 1, "uuid3", 2, 1, 1, 8, "frontend", "uuid7");
+    ("C3", "C-dev2", 1, "project-uuid-C", 2, 1, 1, 8, "frontend", "C2");
+
+insert into sub_projects(id, name, priority, project_id, man_week_estimation, max_parallel_degree, earliest_start_week_id, latest_complete_week_id, required_member_tag) VALUES
+    ("D1", "D-prd", 1, "project-uuid-D", 1, 1, 1, 8, "pm");
+insert into sub_projects(id, name, priority, project_id, man_week_estimation, max_parallel_degree, earliest_start_week_id, latest_complete_week_id, required_member_tag, depends_on_sub_project_ids) VALUES
+    ("D2", "D-dev1", 1, "project-uuid-D", 1, 1, 1, 8, "backend", "D1");
+insert into sub_projects(id, name, priority, project_id, man_week_estimation, max_parallel_degree, earliest_start_week_id, latest_complete_week_id, required_member_tag, depends_on_sub_project_ids) VALUES
+    ("D3", "D-dev2", 1, "project-uuid-D", 1, 1, 1, 8, "backend", "D1");
+insert into sub_projects(id, name, priority, project_id, man_week_estimation, max_parallel_degree, earliest_start_week_id, latest_complete_week_id, required_member_tag, depends_on_sub_project_ids) VALUES
+    ("D4", "D-dev3", 1, "project-uuid-D", 2, 1, 1, 8, "frontend", "D2,D3");
