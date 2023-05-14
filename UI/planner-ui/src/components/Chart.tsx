@@ -387,7 +387,11 @@ function addWeeksToDate(date, weeksToAdd) {
 function getDate(weekId) {
   return addWeeksToDate(new Date(2023, 5, 15), weekId);
 }
-
+function extractName(str) {
+  var rx = /name\=([A-Z])\w+/g;
+  var arr = rx.exec(str);
+  return arr[0].substring(5); 
+}
 const timelineRowFormatter = (name, subprojectName, actualStartWeekId, actualEndWeekId) => {
   return [
     name,
@@ -450,7 +454,7 @@ function drawTimelineChart(rawData) {
         console.log(max, subp, subp.actualEndWeekId);
         rows.push(
           timelineRowFormatter(
-            `${name}-${key}`,
+            `${name} ${`_`} ${extractName(key)}`,
             subp.name,
             subp.actualStartWeekId,
             subp.actualEndWeekId
