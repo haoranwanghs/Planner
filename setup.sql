@@ -43,10 +43,13 @@ create table `sub_projects`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
-insert into members (name, tag) values ("backend1", "backend");
-insert into members (name, tag) values ("frontend1", "frontend");
-insert into members (name, tag) values ("ios1", "ios");
 insert into members (name, tag) values ("pm1", "pm");
+insert into members (name, tag) values ("backend1", "backend");
+insert into members (name, tag) values ("backend2", "backend");
+insert into members (name, tag) values ("backend3", "backend");
+insert into members (name, tag) values ("frontend1", "frontend");
+insert into members (name, tag) values ("frontend2", "frontend");
+insert into members (name, tag) values ("ios1", "ios");
 insert into members (name, tag) values ("android1", "android");
 
 insert into projects (id, name, priority, earliest_start_week_id, latest_complete_week_id) VALUES ("uuid1", "A", 3, 1, 8);

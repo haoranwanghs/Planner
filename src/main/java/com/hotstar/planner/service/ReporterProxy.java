@@ -38,11 +38,14 @@ public class ReporterProxy {
         Map<String, List<String>> skillMap = new HashMap<>();
         List<Member> members = memberRepository.findAll();
         for (Member member : members) {
+            List<String> list;
             if (skillMap.containsKey(member.getTag())) {
-                skillMap.get(member.getTag()).add(member.getName());
+                list = skillMap.get(member.getTag());
             } else {
-                skillMap.put(member.getTag(), Collections.singletonList(member.getName()));
+                list = new LinkedList<>();
+                skillMap.put(member.getTag(), list);
             }
+            list.add(member.getName());
         }
         return skillMap;
     }
