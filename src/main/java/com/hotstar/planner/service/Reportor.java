@@ -48,7 +48,6 @@ public class Reportor {
     @Data
     static class Project {
         private final String name;
-        private final Schedule schedule;
         private final List<Subproject> subprojects;
         private final Integer priority;
     }
@@ -63,7 +62,7 @@ public class Reportor {
     @Data
     @Builder
     static class PlannedProject {
-        private final String name;
+        private final Project project;
         private final Boolean isCompleted;
         private final List<PlannedSubproject> subprojects;
     }
@@ -96,12 +95,12 @@ public class Reportor {
             }
 
             PlannedProject plannedProject = PlannedProject.builder()
-                .name(project.name)
+                .project(project)
                 .isCompleted(isComplete)
                 .subprojects(plannedSubProjects)
                 .build();
 
-            finalPlannedProjectMap.put(plannedProject.name, plannedProject);
+            finalPlannedProjectMap.put(project.name, plannedProject);
         }
     }
 
