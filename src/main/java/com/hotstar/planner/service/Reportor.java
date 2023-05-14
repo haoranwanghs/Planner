@@ -160,22 +160,38 @@ public class Reportor {
 
     Allocation planWithoutDependency(Subproject subproject, Map<String, PlannedSubproject> plannedSubprojectMap,
                     Map<String, Set<Integer>> userPlan, int earliest) {
+        Allocation earliestAllocation = null;
+
         for (String member : subproject.members) {
             Allocation allocation = tryPlan(member, userPlan.get(member),
                 earliest, subproject.schedule.endWeekId, subproject.total);
-            if (allocation != null) {
-                plannedSubprojectMap.put(subproject.name,
-                    PlannedSubproject.builder()
-                        .subproject(subproject)
-                        .allocation(allocation)
-                        .build()
-                );
 
-                return allocation;
+            if (allocation != null) {
+                if (earliestAllocation == null) {
+                    earliestAllocation = allocation;
+                }
+
+                if (earliestAllocation.schedule.endWeekId > allocation.schedule.endWeekId) {
+                    earliestAllocation = allocation;
+                }
             }
         }
 
-        return null;
+        if (earliestAllocation != null) {
+            plannedSubprojectMap.put(subproject.name,
+                PlannedSubproject.builder()
+                    .subproject(subproject)
+                    .allocation(earliestAllocation)
+                    .build()
+            );
+
+            for (int i = earliestAllocation.schedule.startWeekId;
+                 i <= earliestAllocation.schedule.endWeekId; ++i) {
+                userPlan.get(earliestAllocation.member).add(i);
+            }
+        }
+
+        return earliestAllocation;
     }
 
     Allocation tryPlan(String member, Set<Integer> userPlanned, int earliest, int end, int total) {
@@ -191,10 +207,10 @@ public class Reportor {
             }
 
             if (possible) {
-                for (int i = 0; i < total; ++i) {
-                    int weekId = from + i;
-                    userPlanned.add(weekId);
-                }
+//                for (int i = 0; i < total; ++i) {
+//                    int weekId = from + i;
+//                    userPlanned.add(weekId);
+//                }
 
                 return Allocation.builder()
                     .member(member)
