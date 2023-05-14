@@ -19,9 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-//@Data
-@Getter
-@Setter
+@Data
 @Entity
 @Builder
 @Table(name = "sub_projects")
@@ -35,10 +33,11 @@ public class SubProject {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "project_id", nullable = false)
+    @JoinColumn(name = "project_id", nullable = false, insertable = false, updatable = false)
     Project project;
-//    @Column(name = "project_id")
-//    String projectId;
+
+    @Column(name = "project_id", nullable = false, updatable = false)
+    String projectId;
 
     @Column(name = "name")
     String name;

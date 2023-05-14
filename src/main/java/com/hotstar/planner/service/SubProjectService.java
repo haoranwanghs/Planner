@@ -5,7 +5,6 @@ import com.hotstar.planner.entities.SubProject;
 import com.hotstar.planner.repository.ProjectRepository;
 import com.hotstar.planner.repository.SubProjectRepository;
 import com.hotstar.planner.request.SubProjectRequest;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -38,6 +37,7 @@ public class SubProjectService {
         SubProject subProject = SubProject.builder()
             .id(request.getId())
             .project(project.get())
+            .projectId(project.get().getId())
             .name(request.getName())
             .priority(request.getPriority())
             .manWeekEstimation(request.getManWeekEstimation())
